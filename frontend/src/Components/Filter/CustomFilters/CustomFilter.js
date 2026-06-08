@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import { icons } from 'Helpers/Props';
@@ -83,19 +84,27 @@ class CustomFilter extends Component {
           {label}
         </div>
 
-        <div className={styles.actions}>
+        <ActionGroup
+          className={styles.actions}
+          context={label}
+        >
           <IconButton
             name={icons.EDIT}
+            title={translate('Edit')}
+            actionLabel={translate('Edit')}
+            context={label}
             onPress={this.onEditPress}
           />
 
           <SpinnerIconButton
             title={translate('RemoveFilter')}
+            actionLabel={translate('RemoveFilter')}
+            context={label}
             name={icons.REMOVE}
             isSpinning={this.state.isDeleting}
             onPress={this.onRemovePress}
           />
-        </div>
+        </ActionGroup>
       </div>
     );
   }

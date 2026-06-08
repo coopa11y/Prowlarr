@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { map } from 'Helpers/elementChildren';
 import { sizes } from 'Helpers/Props';
+import FormLabel from './FormLabel';
 import styles from './FormGroup.css';
 
 function FormGroup(props) {
@@ -20,6 +21,17 @@ function FormGroup(props) {
   }
 
   const childProps = isAdvanced ? { isAdvanced } : {};
+  const childrenArray = React.Children.toArray(children);
+  const inputChild = childrenArray.find((child) => {
+    if (!React.isValidElement(child) || child.type === FormLabel) {
+      return false;
+    }
+
+    return typeof child.props.name === 'string';
+  });
+  const labelName = React.isValidElement(inputChild) && typeof inputChild.props.name === 'string' ?
+    inputChild.props.name :
+    undefined;
 
   return (
     <div
@@ -30,7 +42,14 @@ function FormGroup(props) {
       {...otherProps}
     >
       {
-        map(children, (child) => {
+        map(childrenArray, (child) => {
+          if (React.isValidElement(child) && child.type === FormLabel && !child.props.name && labelName) {
+            return React.cloneElement(child, {
+              ...childProps,
+              name: labelName
+            });
+          }
+
           return React.cloneElement(child, childProps);
         })
       }

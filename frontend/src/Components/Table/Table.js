@@ -94,6 +94,8 @@ function Table(props) {
                     >
                       <IconButton
                         name={icons.ADVANCED_SETTINGS}
+                        title="Table Options"
+                        actionLabel="Table Options"
                       />
                     </TableOptionsModalWrapper>
                   </TableHeaderCell>

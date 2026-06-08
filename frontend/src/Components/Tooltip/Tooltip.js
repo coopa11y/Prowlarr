@@ -97,6 +97,28 @@ class Tooltip extends Component {
     }
   };
 
+  onFocus = () => {
+    this.setState({ isOpen: true });
+  };
+
+  onBlur = () => {
+    this.setState({ isOpen: false });
+  };
+
+  onKeyDown = (event) => {
+    if (!this.props.isTabbable) {
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.setState({ isOpen: !this.state.isOpen });
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.setState({ isOpen: false });
+    }
+  };
+
   onMouseEnter = () => {
     if (this._closeTimeout) {
       this._closeTimeout = clearTimeout(this._closeTimeout);
@@ -122,7 +144,9 @@ class Tooltip extends Component {
       tooltip,
       kind,
       position,
-      canFlip
+      canFlip,
+      isTabbable,
+      'aria-label': ariaLabel
     } = this.props;
 
     return (
@@ -132,7 +156,13 @@ class Tooltip extends Component {
             <span
               ref={ref}
               className={className}
+              role={isTabbable ? 'button' : undefined}
+              tabIndex={isTabbable ? 0 : undefined}
+              aria-label={ariaLabel}
               onClick={this.onClick}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
+              onKeyDown={this.onKeyDown}
               onMouseEnter={this.onMouseEnter}
               onMouseLeave={this.onMouseLeave}
             >
@@ -222,14 +252,17 @@ Tooltip.propTypes = {
   tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   kind: PropTypes.oneOf([kinds.DEFAULT, kinds.INVERSE]),
   position: PropTypes.oneOf(tooltipPositions.all),
-  canFlip: PropTypes.bool.isRequired
+  canFlip: PropTypes.bool.isRequired,
+  isTabbable: PropTypes.bool,
+  'aria-label': PropTypes.string
 };
 
 Tooltip.defaultProps = {
   bodyClassName: styles.body,
   kind: kinds.DEFAULT,
   position: tooltipPositions.TOP,
-  canFlip: false
+  canFlip: false,
+  isTabbable: false
 };
 
 export default Tooltip;

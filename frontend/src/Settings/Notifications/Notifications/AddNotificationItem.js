@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import ActionCard from 'Components/Link/ActionCard';
 import Button from 'Components/Link/Button';
-import Link from 'Components/Link/Link';
 import Menu from 'Components/Menu/Menu';
 import MenuContent from 'Components/Menu/MenuContent';
 import { sizes } from 'Helpers/Props';
@@ -37,65 +37,60 @@ class AddNotificationItem extends Component {
     const hasPresets = !!presets && !!presets.length;
 
     return (
-      <div
+      <ActionCard
         className={styles.notification}
+        underlayClassName={styles.underlay}
+        overlayClassName={styles.overlay}
+        nameClassName={styles.name}
+        actionsClassName={styles.actions}
+        label={`${translate('AddNotification')}: ${implementationName}`}
+        name={implementationName}
+        title={implementationName}
+        onPress={this.onNotificationSelect}
       >
-        <Link
-          className={styles.underlay}
-          onPress={this.onNotificationSelect}
-        />
+        {
+          hasPresets &&
+            <span>
+              <Button
+                size={sizes.SMALL}
+                onPress={this.onNotificationSelect}
+              >
+                Custom
+              </Button>
 
-        <div className={styles.overlay}>
-          <div className={styles.name}>
-            {implementationName}
-          </div>
+              <Menu className={styles.presetsMenu}>
+                <Button
+                  className={styles.presetsMenuButton}
+                  size={sizes.SMALL}
+                >
+                  Presets
+                </Button>
 
-          <div className={styles.actions}>
-            {
-              hasPresets &&
-                <span>
-                  <Button
-                    size={sizes.SMALL}
-                    onPress={this.onNotificationSelect}
-                  >
-                    Custom
-                  </Button>
+                <MenuContent>
+                  {
+                    presets.map((preset) => {
+                      return (
+                        <AddNotificationPresetMenuItem
+                          key={preset.name}
+                          name={preset.name}
+                          implementation={implementation}
+                          onPress={onNotificationSelect}
+                        />
+                      );
+                    })
+                  }
+                </MenuContent>
+              </Menu>
+            </span>
+        }
 
-                  <Menu className={styles.presetsMenu}>
-                    <Button
-                      className={styles.presetsMenuButton}
-                      size={sizes.SMALL}
-                    >
-                      Presets
-                    </Button>
-
-                    <MenuContent>
-                      {
-                        presets.map((preset) => {
-                          return (
-                            <AddNotificationPresetMenuItem
-                              key={preset.name}
-                              name={preset.name}
-                              implementation={implementation}
-                              onPress={onNotificationSelect}
-                            />
-                          );
-                        })
-                      }
-                    </MenuContent>
-                  </Menu>
-                </span>
-            }
-
-            <Button
-              to={infoLink}
-              size={sizes.SMALL}
-            >
-              {translate('MoreInfo')}
-            </Button>
-          </div>
-        </div>
-      </div>
+        <Button
+          to={infoLink}
+          size={sizes.SMALL}
+        >
+          {translate('MoreInfo')}
+        </Button>
+      </ActionCard>
     );
   }
 }

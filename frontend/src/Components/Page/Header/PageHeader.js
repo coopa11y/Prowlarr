@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import keyboardShortcuts, { shortcuts } from 'Components/keyboardShortcuts';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import { icons } from 'Helpers/Props';
@@ -71,7 +72,10 @@ class PageHeader extends Component {
 
         <IndexerSearchInputConnector />
 
-        <div className={styles.right}>
+        <ActionGroup
+          className={styles.right}
+          label="Page Header Actions"
+        >
           <IconButton
             className={styles.donate}
             name={icons.HEART}
@@ -79,10 +83,12 @@ class PageHeader extends Component {
             to="https://prowlarr.com/donate"
             size={14}
             title={translate('Donate')}
+            actionLabel={translate('Donate')}
           />
           <IconButton
             className={styles.translate}
             title={translate('SuggestTranslationChange')}
+            actionLabel={translate('SuggestTranslationChange')}
             name={icons.TRANSLATE}
             to="https://translate.servarr.com/projects/servarr/prowlarr/"
             size={24}
@@ -91,7 +97,7 @@ class PageHeader extends Component {
           <PageHeaderActionsMenu
             onKeyboardShortcutsPress={this.onOpenKeyboardShortcutsModal}
           />
-        </div>
+        </ActionGroup>
 
         <KeyboardShortcutsModal
           isOpen={this.state.isKeyboardShortcutsModalOpen}

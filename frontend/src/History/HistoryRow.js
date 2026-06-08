@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -384,21 +385,27 @@ class HistoryRow extends Component {
                   key={name}
                   className={styles.details}
                 >
-                  <IconButton
-                    name={icons.INFO}
-                    onPress={this.onDetailsPress}
-                    title={translate('HistoryDetails')}
-                  />
+                  <ActionGroup context={indexer.name}>
+                    <IconButton
+                      name={icons.INFO}
+                      onPress={this.onDetailsPress}
+                      title={translate('HistoryDetails')}
+                      actionLabel={translate('HistoryDetails')}
+                      context={indexer.name}
+                    />
 
-                  {
-                    eventType === 'indexerQuery' ?
-                      <IconButton
-                        name={icons.SEARCH}
-                        onPress={this.onSearchPress}
-                        title={translate('RepeatSearch')}
-                      /> :
-                      null
-                  }
+                    {
+                      eventType === 'indexerQuery' ?
+                        <IconButton
+                          name={icons.SEARCH}
+                          onPress={this.onSearchPress}
+                          title={translate('RepeatSearch')}
+                          actionLabel={translate('RepeatSearch')}
+                          context={indexer.name}
+                        /> :
+                        null
+                    }
+                  </ActionGroup>
                 </TableRowCell>
               );
             }

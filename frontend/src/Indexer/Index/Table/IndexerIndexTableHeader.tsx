@@ -83,7 +83,11 @@ function IndexerIndexTableHeader(props: IndexerIndexTableHeaderProps) {
                 optionsComponent={IndexerIndexTableOptions}
                 onTableOptionChange={onTableOptionChange}
               >
-                <IconButton name={icons.ADVANCED_SETTINGS} />
+                <IconButton
+                  name={icons.ADVANCED_SETTINGS}
+                  title="Table Options"
+                  actionLabel="Table Options"
+                />
               </TableOptionsModalWrapper>
             </VirtualTableHeaderCell>
           );

@@ -94,12 +94,17 @@ class CheckInput extends Component {
     const {
       className,
       containerClassName,
+      id,
       name,
       value,
       checkedValue,
       uncheckedValue,
       helpText,
+      helpTextId,
       helpTextWarning,
+      helpTextWarningId,
+      ariaLabel,
+      ariaDescribedBy,
       isDisabled,
       kind
     } = this.props;
@@ -119,7 +124,11 @@ class CheckInput extends Component {
             ref={this.setRef}
             className={styles.checkbox}
             type="checkbox"
+            id={id || name}
             name={name}
+            aria-label={ariaLabel || name}
+            aria-describedby={ariaDescribedBy}
+            aria-checked={isIndeterminate ? 'mixed' : isChecked}
             checked={isChecked}
             disabled={isDisabled}
             onChange={this.onChange}
@@ -147,6 +156,7 @@ class CheckInput extends Component {
           {
             helpText &&
               <FormInputHelpText
+                id={helpTextId}
                 className={styles.helpText}
                 text={helpText}
               />
@@ -155,6 +165,7 @@ class CheckInput extends Component {
           {
             !helpText && helpTextWarning &&
               <FormInputHelpText
+                id={helpTextWarningId}
                 className={styles.helpText}
                 text={helpTextWarning}
                 isWarning={true}
@@ -169,12 +180,17 @@ class CheckInput extends Component {
 CheckInput.propTypes = {
   className: PropTypes.string.isRequired,
   containerClassName: PropTypes.string.isRequired,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
   checkedValue: PropTypes.bool,
   uncheckedValue: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   helpText: PropTypes.string,
+  helpTextId: PropTypes.string,
   helpTextWarning: PropTypes.string,
+  helpTextWarningId: PropTypes.string,
   isDisabled: PropTypes.bool,
   kind: PropTypes.oneOf(kinds.all).isRequired,
   onChange: PropTypes.func.isRequired

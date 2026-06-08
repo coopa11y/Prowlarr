@@ -227,15 +227,21 @@ class EnhancedSelectInput extends Component {
       newState.selectedIndex = nextIndex(selectedIndex, values);
     }
 
-    if (keyCode === keyCodes.ENTER) {
+    if (keyCode === keyCodes.ENTER || event.key === ' ') {
       event.preventDefault();
       newState.isOpen = false;
-      this.onSelect(getKey(selectedIndex, values));
+
+      if (selectedIndex != null && selectedIndex > -1) {
+        this.onSelect(getKey(selectedIndex, values));
+      }
     }
 
     if (keyCode === keyCodes.TAB) {
       newState.isOpen = false;
-      this.onSelect(getKey(selectedIndex, values));
+
+      if (selectedIndex != null && selectedIndex > -1) {
+        this.onSelect(getKey(selectedIndex, values));
+      }
     }
 
     if (keyCode === keyCodes.ESCAPE) {
@@ -306,6 +312,7 @@ class EnhancedSelectInput extends Component {
     const {
       className,
       disabledClassName,
+      id,
       name,
       value,
       values,
@@ -315,6 +322,7 @@ class EnhancedSelectInput extends Component {
       hasError,
       hasWarning,
       valueOptions,
+      ariaDescribedBy,
       selectedValueOptions,
       selectedValueComponent: SelectedValueComponent,
       optionComponent: OptionComponent,
@@ -356,7 +364,9 @@ class EnhancedSelectInput extends Component {
                       >
                         <TextInput
                           className={className}
+                          id={id}
                           name={name}
+                          ariaDescribedBy={ariaDescribedBy}
                           value={value}
                           readOnly={isDisabled}
                           hasError={hasError}
@@ -372,6 +382,10 @@ class EnhancedSelectInput extends Component {
                               styles.dropdownArrowContainerDisabled :
                               styles.dropdownArrowContainer)
                           }
+                          aria-label={name}
+                          aria-expanded={isOpen}
+                          aria-haspopup="listbox"
+                          aria-controls={this._optionsId}
                           onPress={this.onPress}
                         >
                           {
@@ -400,6 +414,11 @@ class EnhancedSelectInput extends Component {
                           isDisabled && disabledClassName
                         )}
                         isDisabled={isDisabled}
+                        id={id || name}
+                        aria-describedby={ariaDescribedBy}
+                        aria-expanded={isOpen}
+                        aria-haspopup="listbox"
+                        aria-controls={this._optionsId}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         onPress={this.onPress}
@@ -577,7 +596,9 @@ class EnhancedSelectInput extends Component {
 EnhancedSelectInput.propTypes = {
   className: PropTypes.string,
   disabledClassName: PropTypes.string,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
+  ariaDescribedBy: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string), PropTypes.arrayOf(PropTypes.number)]).isRequired,
   values: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDisabled: PropTypes.bool.isRequired,

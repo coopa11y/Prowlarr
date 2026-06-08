@@ -128,8 +128,10 @@ class TextInput extends Component {
       readOnly,
       autoFocus,
       placeholder,
+      id,
       name,
       value,
+      ariaDescribedBy,
       hasError,
       hasWarning,
       hasButton,
@@ -147,6 +149,8 @@ class TextInput extends Component {
         readOnly={readOnly}
         autoFocus={autoFocus}
         placeholder={placeholder}
+        id={id || name}
+        aria-describedby={ariaDescribedBy}
         className={classNames(
           className,
           readOnly && styles.readOnly,
@@ -179,7 +183,9 @@ TextInput.propTypes = {
   readOnly: PropTypes.bool,
   autoFocus: PropTypes.bool,
   placeholder: PropTypes.string,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
+  ariaDescribedBy: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).isRequired,
   hasError: PropTypes.bool,
   hasWarning: PropTypes.bool,

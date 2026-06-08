@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -82,11 +83,15 @@ function IndexerHistoryRow(props: IndexerHistoryRowProps) {
       </TableRowCell>
 
       <TableRowCell className={styles.details}>
-        <IconButton
-          name={icons.INFO}
-          title={translate('HistoryDetails')}
-          onPress={onDetailsModalPress}
-        />
+        <ActionGroup context={indexer.name}>
+          <IconButton
+            name={icons.INFO}
+            title={translate('HistoryDetails')}
+            actionLabel={translate('HistoryDetails')}
+            context={indexer.name}
+            onPress={onDetailsModalPress}
+          />
+        </ActionGroup>
       </TableRowCell>
 
       <HistoryDetailsModal

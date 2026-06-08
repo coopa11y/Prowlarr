@@ -2,8 +2,25 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Icon from 'Components/Icon';
 import Link from 'Components/Link/Link';
+import useKeyboardActivation from 'Helpers/Hooks/useKeyboardActivation';
 import { icons, sortDirections } from 'Helpers/Props';
 import styles from './TableHeaderCell.css';
+
+function getTextValue(value) {
+  return typeof value === 'function' ? value() : value;
+}
+
+function getSortLabel(column, ariaSort) {
+  if (!column) {
+    return undefined;
+  }
+
+  if (ariaSort === 'none') {
+    return `Sort by ${column}`;
+  }
+
+  return `Sort by ${column}. Current sort ${ariaSort}.`;
+}
 
 class TableHeaderCell extends Component {
 
@@ -39,6 +56,7 @@ class TableHeaderCell extends Component {
       sortDirection,
       fixedSortDirection,
       children,
+      'aria-label': ariaLabel,
       onSortPress,
       ...otherProps
     } = this.props;
@@ -47,15 +65,26 @@ class TableHeaderCell extends Component {
     const sortIcon = sortDirection === sortDirections.ASCENDING ?
       icons.SORT_ASCENDING :
       icons.SORT_DESCENDING;
+    let ariaSort = 'none';
+
+    if (isSorting) {
+      ariaSort = sortDirection === sortDirections.ASCENDING ? 'ascending' : 'descending';
+    }
+
+    const columnLabelText = getTextValue(columnLabel) ||
+      (typeof label === 'function' ? label() : undefined) ||
+      (typeof children === 'string' ? children : undefined) ||
+      name;
+    const sortLabel = ariaLabel || getSortLabel(columnLabelText, ariaSort);
 
     return (
       isSortable ?
-        <Link
+        <SortableHeaderLink
           {...otherProps}
-          component="th"
           className={className}
-          label={typeof label === 'function' ? label() : label}
-          title={typeof columnLabel === 'function' ? columnLabel() : columnLabel}
+          ariaSort={ariaSort}
+          sortLabel={sortLabel}
+          title={columnLabelText}
           onPress={this.onPress}
         >
           {children}
@@ -67,14 +96,56 @@ class TableHeaderCell extends Component {
                 className={styles.sortIcon}
               />
           }
-        </Link> :
+        </SortableHeaderLink> :
 
-        <th className={className}>
+        <th
+          className={className}
+          scope="col"
+        >
           {children}
         </th>
     );
   }
 }
+
+function SortableHeaderLink(props) {
+  const {
+    className,
+    ariaSort,
+    sortLabel,
+    title,
+    children,
+    onPress,
+    ...otherProps
+  } = props;
+  const onKeyDown = useKeyboardActivation();
+
+  return (
+    <Link
+      {...otherProps}
+      component="th"
+      className={className}
+      tabIndex={0}
+      scope="col"
+      aria-sort={ariaSort}
+      aria-label={sortLabel}
+      title={title}
+      onKeyDown={onKeyDown}
+      onPress={onPress}
+    >
+      {children}
+    </Link>
+  );
+}
+
+SortableHeaderLink.propTypes = {
+  className: PropTypes.string,
+  ariaSort: PropTypes.string.isRequired,
+  sortLabel: PropTypes.string,
+  title: PropTypes.string,
+  children: PropTypes.node,
+  onPress: PropTypes.func.isRequired
+};
 
 TableHeaderCell.propTypes = {
   className: PropTypes.string,
@@ -88,6 +159,7 @@ TableHeaderCell.propTypes = {
   fixedSortDirection: PropTypes.string,
   sortDirection: PropTypes.string,
   children: PropTypes.node,
+  'aria-label': PropTypes.string,
   onSortPress: PropTypes.func
 };
 

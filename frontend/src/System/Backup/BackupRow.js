@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Icon from 'Components/Icon';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
@@ -115,17 +116,23 @@ class BackupRow extends Component {
         />
 
         <TableRowCell className={styles.actions}>
-          <IconButton
-            title={translate('RestoreBackup')}
-            name={icons.RESTORE}
-            onPress={this.onRestorePress}
-          />
+          <ActionGroup context={name}>
+            <IconButton
+              title={translate('RestoreBackup')}
+              actionLabel={translate('RestoreBackup')}
+              context={name}
+              name={icons.RESTORE}
+              onPress={this.onRestorePress}
+            />
 
-          <IconButton
-            title={translate('DeleteBackup')}
-            name={icons.DELETE}
-            onPress={this.onDeletePress}
-          />
+            <IconButton
+              title={translate('DeleteBackup')}
+              actionLabel={translate('DeleteBackup')}
+              context={name}
+              name={icons.DELETE}
+              onPress={this.onDeletePress}
+            />
+          </ActionGroup>
         </TableRowCell>
 
         <RestoreBackupModalConnector

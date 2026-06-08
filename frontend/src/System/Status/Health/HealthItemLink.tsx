@@ -5,10 +5,11 @@ import translate from 'Utilities/String/translate';
 
 interface HealthItemLinkProps {
   source: string;
+  context?: string;
 }
 
 function HealthItemLink(props: HealthItemLinkProps) {
-  const { source } = props;
+  const { source, context } = props;
 
   switch (source) {
     case 'ApplicationStatusCheck':
@@ -17,6 +18,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          actionLabel={translate('Settings')}
+          context={context}
           to="/settings/applications"
         />
       );
@@ -25,6 +28,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          actionLabel={translate('Settings')}
+          context={context}
           to="/settings/downloadclients"
         />
       );
@@ -33,6 +38,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          actionLabel={translate('Settings')}
+          context={context}
           to="/settings/connect"
         />
       );
@@ -41,6 +48,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          actionLabel={translate('Settings')}
+          context={context}
           to="/settings/indexers"
         />
       );
@@ -52,6 +61,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          actionLabel={translate('Settings')}
+          context={context}
           to="/"
         />
       );
@@ -60,6 +71,8 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.UPDATE}
           title={translate('Updates')}
+          actionLabel={translate('Updates')}
+          context={context}
           to="/system/updates"
         />
       );

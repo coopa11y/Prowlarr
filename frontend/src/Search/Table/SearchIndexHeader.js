@@ -82,6 +82,8 @@ class SearchIndexHeader extends Component {
                 >
                   <IconButton
                     name={icons.ADVANCED_SETTINGS}
+                    title="Table Options"
+                    actionLabel="Table Options"
                     onPress={this.onTableOptionsPress}
                   />
                 </VirtualTableHeaderCell>

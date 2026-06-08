@@ -37,7 +37,9 @@ Popover.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   position: PropTypes.oneOf(tooltipPositions.all),
-  canFlip: PropTypes.bool
+  canFlip: PropTypes.bool,
+  isTabbable: PropTypes.bool,
+  'aria-label': PropTypes.string
 };
 
 export default Popover;

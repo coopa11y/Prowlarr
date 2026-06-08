@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import TextTruncate from 'react-text-truncate';
 import Icon from 'Components/Icon';
 import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
@@ -167,11 +168,17 @@ function SearchIndexOverview(props: SearchIndexOverviewProps) {
                 </Link>
               </div>
 
-              <div className={styles.actions}>
+              <ActionGroup className={styles.actions} context={title}>
                 <SpinnerIconButton
                   name={getDownloadIcon(isGrabbing, isGrabbed, grabError)}
                   kind={getDownloadKind(isGrabbed, grabError)}
                   title={getDownloadTooltip(isGrabbing, isGrabbed, grabError)}
+                  actionLabel={getDownloadTooltip(
+                    isGrabbing,
+                    isGrabbed,
+                    grabError
+                  )}
+                  context={title}
                   isDisabled={isGrabbed}
                   isSpinning={isGrabbing}
                   onPress={onGrabPressWrapper}
@@ -181,6 +188,8 @@ function SearchIndexOverview(props: SearchIndexOverviewProps) {
                   <Link
                     className={styles.manualDownloadContent}
                     title={translate('OverrideAndAddToDownloadClient')}
+                    actionLabel={translate('OverrideAndAddToDownloadClient')}
+                    context={title}
                     onPress={onOverridePress}
                   >
                     <div className={styles.manualDownloadContent}>
@@ -204,10 +213,12 @@ function SearchIndexOverview(props: SearchIndexOverviewProps) {
                     className={styles.downloadLink}
                     name={icons.SAVE}
                     title={translate('Save')}
+                    actionLabel={translate('Save')}
+                    context={title}
                     to={downloadUrl ?? magnetUrl}
                   />
                 ) : null}
-              </div>
+              </ActionGroup>
             </div>
             <div className={styles.indexerRow}>{indexer}</div>
             <div className={styles.infoRow}>

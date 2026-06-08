@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
 import TableRow from 'Components/Table/TableRow';
@@ -156,12 +157,17 @@ function ScheduledTaskRow(props: ScheduledTaskRowProps) {
       ) : null}
 
       <TableRowCell className={styles.actions}>
-        <SpinnerIconButton
-          name={icons.REFRESH}
-          spinningName={icons.REFRESH}
-          isSpinning={isExecuting}
-          onPress={handleExecutePress}
-        />
+        <ActionGroup context={name}>
+          <SpinnerIconButton
+            name={icons.REFRESH}
+            spinningName={icons.REFRESH}
+            title={name}
+            actionLabel={name}
+            context={name}
+            isSpinning={isExecuting}
+            onPress={handleExecutePress}
+          />
+        </ActionGroup>
       </TableRowCell>
     </TableRow>
   );

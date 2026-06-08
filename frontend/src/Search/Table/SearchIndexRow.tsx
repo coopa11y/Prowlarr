@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Icon from 'Components/Icon';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
@@ -300,81 +301,97 @@ function SearchIndexRow(props: SearchIndexRowProps) {
         if (name === 'actions') {
           return (
             <VirtualTableRowCell key={name} className={styles[name]}>
-              <SpinnerIconButton
-                name={getDownloadIcon(isGrabbing, isGrabbed, grabError)}
-                kind={getDownloadKind(isGrabbed, grabError)}
-                title={getDownloadTooltip(isGrabbing, isGrabbed, grabError)}
-                isDisabled={isGrabbed}
-                isSpinning={isGrabbing}
-                onPress={onGrabPressWrapper}
-              />
-
-              {downloadClients.length > 1 ? (
-                <Link
-                  className={styles.manualDownloadContent}
-                  title={translate('OverrideAndAddToDownloadClient')}
-                  onPress={onOverridePress}
-                >
-                  <div className={styles.manualDownloadContent}>
-                    <Icon
-                      className={styles.interactiveIcon}
-                      name={icons.INTERACTIVE}
-                      size={12}
-                    />
-
-                    <Icon
-                      className={styles.downloadIcon}
-                      name={icons.CIRCLE_DOWN}
-                      size={10}
-                    />
-                  </div>
-                </Link>
-              ) : null}
-
-              {downloadUrl ? (
-                <IconButton
-                  className={styles.downloadLink}
-                  name={icons.SAVE}
-                  title={translate('Save')}
-                  onPress={onSavePressWrapper}
+              <ActionGroup context={title}>
+                <SpinnerIconButton
+                  name={getDownloadIcon(isGrabbing, isGrabbed, grabError)}
+                  kind={getDownloadKind(isGrabbed, grabError)}
+                  title={getDownloadTooltip(isGrabbing, isGrabbed, grabError)}
+                  actionLabel={getDownloadTooltip(
+                    isGrabbing,
+                    isGrabbed,
+                    grabError
+                  )}
+                  context={title}
+                  isDisabled={isGrabbed}
+                  isSpinning={isGrabbing}
+                  onPress={onGrabPressWrapper}
                 />
-              ) : null}
 
-              {magnetUrl ? (
-                <IconButton
-                  className={styles.downloadLink}
-                  name={icons.MAGNET}
-                  title={translate('Open')}
-                  to={magnetUrl}
-                />
-              ) : null}
+                {downloadClients.length > 1 ? (
+                  <Link
+                    className={styles.manualDownloadContent}
+                    title={translate('OverrideAndAddToDownloadClient')}
+                    actionLabel={translate('OverrideAndAddToDownloadClient')}
+                    context={title}
+                    onPress={onOverridePress}
+                  >
+                    <div className={styles.manualDownloadContent}>
+                      <Icon
+                        className={styles.interactiveIcon}
+                        name={icons.INTERACTIVE}
+                        size={12}
+                      />
 
-              {imdbId || tmdbId || tvdbId || tvMazeId ? (
-                <Popover
-                  anchor={
-                    <Icon
-                      className={styles.externalLinks}
-                      name={icons.EXTERNAL_LINK}
-                      size={12}
-                    />
-                  }
-                  title={translate('Links')}
-                  body={
-                    <ReleaseLinks
-                      categories={categories}
-                      imdbId={imdbId}
-                      tmdbId={tmdbId}
-                      tvdbId={tvdbId}
-                      tvMazeId={tvMazeId}
-                    />
-                  }
-                  position={tooltipPositions.TOP}
-                />
-              ) : null}
+                      <Icon
+                        className={styles.downloadIcon}
+                        name={icons.CIRCLE_DOWN}
+                        size={10}
+                      />
+                    </div>
+                  </Link>
+                ) : null}
+
+                {downloadUrl ? (
+                  <IconButton
+                    className={styles.downloadLink}
+                    name={icons.SAVE}
+                    title={translate('Save')}
+                    actionLabel={translate('Save')}
+                    context={title}
+                    onPress={onSavePressWrapper}
+                  />
+                ) : null}
+
+                {magnetUrl ? (
+                  <IconButton
+                    className={styles.downloadLink}
+                    name={icons.MAGNET}
+                    title={translate('Open')}
+                    actionLabel={translate('Open')}
+                    context={title}
+                    to={magnetUrl}
+                  />
+                ) : null}
+
+                {imdbId || tmdbId || tvdbId || tvMazeId ? (
+                  <Popover
+                    anchor={
+                      <Icon
+                        className={styles.externalLinks}
+                        name={icons.EXTERNAL_LINK}
+                        size={12}
+                      />
+                    }
+                    title={translate('Links')}
+                    body={
+                      <ReleaseLinks
+                        categories={categories}
+                        imdbId={imdbId}
+                        tmdbId={tmdbId}
+                        tvdbId={tvdbId}
+                        tvMazeId={tvMazeId}
+                      />
+                    }
+                    position={tooltipPositions.LEFT}
+                    canFlip={true}
+                    isTabbable={true}
+                    aria-label={`${translate('Links')}: ${title}`}
+                  />
+                ) : null}
+              </ActionGroup>
             </VirtualTableRowCell>
           );
         }
-
         return null;
       })}
 

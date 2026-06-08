@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSelect } from 'App/SelectContext';
 import CheckInput from 'Components/Form/CheckInput';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import VirtualTableRowCell from 'Components/Table/Cells/VirtualTableRowCell';
@@ -324,46 +325,48 @@ function IndexerIndexRow(props: IndexerIndexRowProps) {
               // @ts-ignore ts(2739)
               className={styles[column.name]}
             >
-              <IconButton
-                className={styles.actionButton}
-                name={icons.TEST}
-                title={translate('Test')}
-                actionLabel={translate('Test')}
-                context={indexerName}
-                isSpinning={isTesting}
-                isDisabled={isTesting}
-                announceCompletion={true}
-                error={testError}
-                onPress={onTestPress}
-              />
+              <ActionGroup context={indexerName}>
+                <IconButton
+                  className={styles.actionButton}
+                  name={icons.TEST}
+                  title={translate('Test')}
+                  actionLabel={translate('Test')}
+                  context={indexerName}
+                  isSpinning={isTesting}
+                  isDisabled={isTesting}
+                  announceCompletion={true}
+                  error={testError}
+                  onPress={onTestPress}
+                />
 
-              <IconButton
-                className={styles.externalLink}
-                name={icons.RSS}
-                title={translate('RssFeed')}
-                actionLabel={translate('RssFeed')}
-                context={indexerName}
-                to={rssUrl}
-              />
-
-              {baseUrl ? (
                 <IconButton
                   className={styles.externalLink}
-                  name={icons.EXTERNAL_LINK}
-                  title={translate('Website')}
-                  actionLabel={translate('Website')}
+                  name={icons.RSS}
+                  title={translate('RssFeed')}
+                  actionLabel={translate('RssFeed')}
                   context={indexerName}
-                  to={baseUrl.replace(/(:\/\/)api\./, '$1')}
+                  to={rssUrl}
                 />
-              ) : null}
 
-              <IconButton
-                name={icons.EDIT}
-                title={translate('EditIndexer')}
-                actionLabel={translate('EditIndexer')}
-                context={indexerName}
-                onPress={onEditIndexerPress}
-              />
+                {baseUrl ? (
+                  <IconButton
+                    className={styles.externalLink}
+                    name={icons.EXTERNAL_LINK}
+                    title={translate('Website')}
+                    actionLabel={translate('Website')}
+                    context={indexerName}
+                    to={baseUrl.replace(/(:\/\/)api\./, '$1')}
+                  />
+                ) : null}
+
+                <IconButton
+                  name={icons.EDIT}
+                  title={translate('EditIndexer')}
+                  actionLabel={translate('EditIndexer')}
+                  context={indexerName}
+                  onPress={onEditIndexerPress}
+                />
+              </ActionGroup>
             </VirtualTableRowCell>
           );
         }

@@ -10,6 +10,7 @@
     "watch": "webpack --watch --config ./frontend/build/webpack.config.js",
     "lint": "eslint --config frontend/.eslintrc.js --ignore-path frontend/.eslintignore frontend/",
     "lint-fix": "yarn lint --fix",
+    "a11y-check": "node frontend/scripts/a11y-check.mjs",
     "stylelint-linux": "stylelint $(find frontend -name '*.css') --config frontend/.stylelintrc",
     "stylelint-windows": "stylelint \"frontend/**/*.css\" --config frontend/.stylelintrc",
     "check-modules": "are-you-es5 check . -r"

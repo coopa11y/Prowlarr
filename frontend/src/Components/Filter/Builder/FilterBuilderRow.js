@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import SelectInput from 'Components/Form/SelectInput';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import { filterBuilderTypes, filterBuilderValueTypes, icons } from 'Helpers/Props';
 import sortByProp from 'Utilities/Array/sortByProp';
+import translate from 'Utilities/String/translate';
 import AppProfileFilterBuilderRowValueConnector from './AppProfileFilterBuilderRowValueConnector';
 import BoolFilterBuilderRowValue from './BoolFilterBuilderRowValue';
 import CategoryFilterBuilderRowValue from './CategoryFilterBuilderRowValue';
@@ -196,6 +198,7 @@ class FilterBuilderRow extends Component {
 
   render() {
     const {
+      index,
       filterKey,
       filterType,
       filterValue,
@@ -256,18 +259,27 @@ class FilterBuilderRow extends Component {
           }
         </div>
 
-        <div className={styles.actionsContainer}>
+        <ActionGroup
+          className={styles.actionsContainer}
+          context={`${translate('Filter')} ${index + 1}`}
+        >
           <IconButton
             name={icons.SUBTRACT}
+            title={translate('Remove')}
+            actionLabel={translate('Remove')}
+            context={`${translate('Filter')} ${index + 1}`}
             isDisabled={filterCount === 1}
             onPress={this.onRemovePress}
           />
 
           <IconButton
             name={icons.ADD}
+            title={translate('Add')}
+            actionLabel={translate('Add')}
+            context={`${translate('Filter')} ${index + 1}`}
             onPress={this.onAddPress}
           />
-        </div>
+        </ActionGroup>
       </div>
     );
   }

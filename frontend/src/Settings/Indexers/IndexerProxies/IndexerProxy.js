@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Card from 'Components/Card';
 import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TagList from 'Components/TagList';
@@ -77,7 +78,10 @@ class IndexerProxy extends Component {
             {name}
           </div>
 
-          <div className={styles.actionButtons}>
+          <ActionGroup
+            className={styles.actionButtons}
+            context={name}
+          >
             <IconButton
               className={styles.actionButton}
               name={icons.TEST}
@@ -90,7 +94,7 @@ class IndexerProxy extends Component {
               error={testError}
               onPress={() => onTestIndexerProxyPress(id)}
             />
-          </div>
+          </ActionGroup>
         </div>
 
         <TagList

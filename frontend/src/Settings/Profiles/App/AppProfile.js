@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Card from 'Components/Card';
 import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import { icons, kinds } from 'Helpers/Props';
@@ -82,12 +83,16 @@ class AppProfile extends Component {
             {name}
           </div>
 
-          <IconButton
-            className={styles.cloneButton}
-            title={translate('CloneProfile')}
-            name={icons.CLONE}
-            onPress={this.onCloneAppProfilePress}
-          />
+          <ActionGroup context={name}>
+            <IconButton
+              className={styles.cloneButton}
+              title={translate('CloneProfile')}
+              actionLabel={translate('CloneProfile')}
+              context={name}
+              name={icons.CLONE}
+              onPress={this.onCloneAppProfilePress}
+            />
+          </ActionGroup>
         </div>
 
         <div className={styles.enabled}>
