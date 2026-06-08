@@ -21,7 +21,8 @@ class Notifications extends Component {
 
     this.state = {
       isAddNotificationModalOpen: false,
-      isEditNotificationModalOpen: false
+      isEditNotificationModalOpen: false,
+      testingNotificationId: null
     };
   }
 
@@ -43,6 +44,11 @@ class Notifications extends Component {
     this.setState({ isEditNotificationModalOpen: false });
   };
 
+  onTestNotificationPress = (id) => {
+    this.setState({ testingNotificationId: id });
+    this.props.onTestNotificationPress(id);
+  };
+
   //
   // Render
 
@@ -50,13 +56,16 @@ class Notifications extends Component {
     const {
       items,
       tagList,
+      isTesting,
+      saveError,
       onConfirmDeleteNotification,
       ...otherProps
     } = this.props;
 
     const {
       isAddNotificationModalOpen,
-      isEditNotificationModalOpen
+      isEditNotificationModalOpen,
+      testingNotificationId
     } = this.state;
 
     return (
@@ -73,7 +82,10 @@ class Notifications extends Component {
                     key={item.id}
                     {...item}
                     tagList={tagList}
+                    isTesting={isTesting && testingNotificationId === item.id}
+                    testError={testingNotificationId === item.id ? saveError : null}
                     onConfirmDeleteNotification={onConfirmDeleteNotification}
+                    onTestNotificationPress={this.onTestNotificationPress}
                   />
                 );
               })
@@ -110,9 +122,12 @@ class Notifications extends Component {
 Notifications.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.object,
+  saveError: PropTypes.object,
+  isTesting: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteNotification: PropTypes.func.isRequired
+  onConfirmDeleteNotification: PropTypes.func.isRequired,
+  onTestNotificationPress: PropTypes.func.isRequired
 };
 
 export default Notifications;

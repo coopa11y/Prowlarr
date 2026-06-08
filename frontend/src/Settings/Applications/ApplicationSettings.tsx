@@ -23,6 +23,9 @@ function ApplicationSettings() {
   const isTestingAll = useSelector(
     (state: AppState) => state.settings.applications.isTestingAll
   );
+  const testAllError = useSelector(
+    (state: AppState) => state.settings.applications.saveError
+  );
   const dispatch = useDispatch();
 
   const [isManageApplicationsOpen, setIsManageApplicationsOpen] =
@@ -70,6 +73,8 @@ function ApplicationSettings() {
               label={translate('TestAllApps')}
               iconName={icons.TEST}
               isSpinning={isTestingAll}
+              announceCompletion={true}
+              error={testAllError}
               onPress={onTestAllPress}
             />
 

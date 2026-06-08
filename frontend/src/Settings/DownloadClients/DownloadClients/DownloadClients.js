@@ -22,7 +22,8 @@ class DownloadClients extends Component {
 
     this.state = {
       isAddDownloadClientModalOpen: false,
-      isEditDownloadClientModalOpen: false
+      isEditDownloadClientModalOpen: false,
+      testingDownloadClientId: null
     };
   }
 
@@ -44,19 +45,27 @@ class DownloadClients extends Component {
     this.setState({ isEditDownloadClientModalOpen: false });
   };
 
+  onTestDownloadClientPress = (id) => {
+    this.setState({ testingDownloadClientId: id });
+    this.props.onTestDownloadClientPress(id);
+  };
+
   //
   // Render
 
   render() {
     const {
       items,
+      isTesting,
+      saveError,
       onConfirmDeleteDownloadClient,
       ...otherProps
     } = this.props;
 
     const {
       isAddDownloadClientModalOpen,
-      isEditDownloadClientModalOpen
+      isEditDownloadClientModalOpen,
+      testingDownloadClientId
     } = this.state;
 
     return (
@@ -82,7 +91,10 @@ class DownloadClients extends Component {
                     <DownloadClient
                       key={item.id}
                       {...item}
+                      isTesting={isTesting && testingDownloadClientId === item.id}
+                      testError={testingDownloadClientId === item.id ? saveError : null}
                       onConfirmDeleteDownloadClient={onConfirmDeleteDownloadClient}
+                      onTestDownloadClientPress={this.onTestDownloadClientPress}
                     />
                   );
                 })
@@ -120,8 +132,11 @@ class DownloadClients extends Component {
 DownloadClients.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.object,
+  saveError: PropTypes.object,
+  isTesting: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteDownloadClient: PropTypes.func.isRequired
+  onConfirmDeleteDownloadClient: PropTypes.func.isRequired,
+  onTestDownloadClientPress: PropTypes.func.isRequired
 };
 
 export default DownloadClients;

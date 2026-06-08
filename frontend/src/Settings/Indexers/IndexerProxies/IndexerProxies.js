@@ -21,7 +21,8 @@ class IndexerProxies extends Component {
 
     this.state = {
       isAddIndexerProxyModalOpen: false,
-      isEditIndexerProxyModalOpen: false
+      isEditIndexerProxyModalOpen: false,
+      testingIndexerProxyId: null
     };
   }
 
@@ -43,6 +44,11 @@ class IndexerProxies extends Component {
     this.setState({ isEditIndexerProxyModalOpen: false });
   };
 
+  onTestIndexerProxyPress = (id) => {
+    this.setState({ testingIndexerProxyId: id });
+    this.props.onTestIndexerProxyPress(id);
+  };
+
   //
   // Render
 
@@ -51,13 +57,16 @@ class IndexerProxies extends Component {
       items,
       tagList,
       indexerList,
+      isTesting,
+      saveError,
       onConfirmDeleteIndexerProxy,
       ...otherProps
     } = this.props;
 
     const {
       isAddIndexerProxyModalOpen,
-      isEditIndexerProxyModalOpen
+      isEditIndexerProxyModalOpen,
+      testingIndexerProxyId
     } = this.state;
 
     return (
@@ -75,7 +84,10 @@ class IndexerProxies extends Component {
                     {...item}
                     tagList={tagList}
                     indexerList={indexerList}
+                    isTesting={isTesting && testingIndexerProxyId === item.id}
+                    testError={testingIndexerProxyId === item.id ? saveError : null}
                     onConfirmDeleteIndexerProxy={onConfirmDeleteIndexerProxy}
+                    onTestIndexerProxyPress={this.onTestIndexerProxyPress}
                   />
                 );
               })
@@ -112,10 +124,13 @@ class IndexerProxies extends Component {
 IndexerProxies.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.object,
+  saveError: PropTypes.object,
+  isTesting: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
   indexerList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteIndexerProxy: PropTypes.func.isRequired
+  onConfirmDeleteIndexerProxy: PropTypes.func.isRequired,
+  onTestIndexerProxyPress: PropTypes.func.isRequired
 };
 
 export default IndexerProxies;

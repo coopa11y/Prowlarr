@@ -61,7 +61,10 @@ class Application extends Component {
       syncLevel,
       fields,
       tags,
-      tagList
+      tagList,
+      isTesting,
+      testError,
+      onTestApplicationPress
     } = this.props;
 
     const applicationUrl = fields.find((field) => field.name === 'baseUrl')?.value;
@@ -77,15 +80,32 @@ class Application extends Component {
             {name}
           </div>
 
-          {
-            enable && applicationUrl ?
-              <IconButton
-                className={styles.externalLink}
-                name={icons.EXTERNAL_LINK}
-                title={translate('GoToApplication')}
-                to={`${applicationUrl}`}
-              /> : null
-          }
+          <div className={styles.actionButtons}>
+            <IconButton
+              className={styles.actionButton}
+              name={icons.TEST}
+              title={translate('Test')}
+              actionLabel={translate('Test')}
+              context={name}
+              isSpinning={isTesting}
+              isDisabled={isTesting}
+              announceCompletion={true}
+              error={testError}
+              onPress={() => onTestApplicationPress(id)}
+            />
+
+            {
+              enable && applicationUrl ?
+                <IconButton
+                  className={styles.externalLink}
+                  name={icons.EXTERNAL_LINK}
+                  title={translate('GoToApplication')}
+                  actionLabel={translate('GoToApplication')}
+                  context={name}
+                  to={`${applicationUrl}`}
+                /> : null
+            }
+          </div>
         </div>
 
         {
@@ -146,7 +166,10 @@ Application.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.number).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteApplication: PropTypes.func
+  isTesting: PropTypes.bool.isRequired,
+  testError: PropTypes.object,
+  onConfirmDeleteApplication: PropTypes.func,
+  onTestApplicationPress: PropTypes.func.isRequired
 };
 
 export default Application;

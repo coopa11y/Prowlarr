@@ -32,6 +32,7 @@ interface IndexerAppState
     AppSectionSaveState {
   itemMap: Record<number, number>;
 
+  isTesting: boolean;
   isTestingAll: boolean;
 }
 

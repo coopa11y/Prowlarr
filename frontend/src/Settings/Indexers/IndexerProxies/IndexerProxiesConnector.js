@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { deleteIndexerProxy, fetchIndexerProxies } from 'Store/Actions/settingsActions';
+import { deleteIndexerProxy, fetchIndexerProxies, testIndexerProxy } from 'Store/Actions/settingsActions';
 import createSortedSectionSelector from 'Store/Selectors/createSortedSectionSelector';
 import createTagsSelector from 'Store/Selectors/createTagsSelector';
 import sortByProp from 'Utilities/Array/sortByProp';
@@ -25,7 +25,8 @@ function createMapStateToProps() {
 
 const mapDispatchToProps = {
   fetchIndexerProxies,
-  deleteIndexerProxy
+  deleteIndexerProxy,
+  testIndexerProxy
 };
 
 class IndexerProxiesConnector extends Component {
@@ -44,6 +45,10 @@ class IndexerProxiesConnector extends Component {
     this.props.deleteIndexerProxy({ id });
   };
 
+  onTestIndexerProxyPress = (id) => {
+    this.props.testIndexerProxy({ id });
+  };
+
   //
   // Render
 
@@ -52,6 +57,7 @@ class IndexerProxiesConnector extends Component {
       <IndexerProxies
         {...this.props}
         onConfirmDeleteIndexerProxy={this.onConfirmDeleteIndexerProxy}
+        onTestIndexerProxyPress={this.onTestIndexerProxyPress}
       />
     );
   }
@@ -59,7 +65,8 @@ class IndexerProxiesConnector extends Component {
 
 IndexerProxiesConnector.propTypes = {
   fetchIndexerProxies: PropTypes.func.isRequired,
-  deleteIndexerProxy: PropTypes.func.isRequired
+  deleteIndexerProxy: PropTypes.func.isRequired,
+  testIndexerProxy: PropTypes.func.isRequired
 };
 
 export default connect(createMapStateToProps, mapDispatchToProps)(IndexerProxiesConnector);

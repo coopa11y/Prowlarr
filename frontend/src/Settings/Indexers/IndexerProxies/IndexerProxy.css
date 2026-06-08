@@ -4,12 +4,28 @@
   width: 290px;
 }
 
+.nameContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .name {
   @add-mixin truncate;
 
   margin-bottom: 20px;
   font-weight: 300;
   font-size: 24px;
+}
+
+.actionButtons {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.actionButton {
+  composes: button from '~Components/Link/IconButton.css';
+
+  height: 36px;
 }
 
 .indexers {

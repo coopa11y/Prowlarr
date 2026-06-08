@@ -9,12 +9,23 @@
   justify-content: space-between;
 }
 
+.actionButtons {
+  display: flex;
+  flex: 0 0 auto;
+}
+
 .name {
   @add-mixin truncate;
 
   margin-bottom: 20px;
   font-weight: 300;
   font-size: 24px;
+}
+
+.actionButton {
+  composes: button from '~Components/Link/IconButton.css';
+
+  height: 36px;
 }
 
 .externalLink {

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Card from 'Components/Card';
 import Label from 'Components/Label';
+import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TagList from 'Components/TagList';
-import { kinds } from 'Helpers/Props';
+import { icons, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
 import EditIndexerProxyModalConnector from './EditIndexerProxyModalConnector';
 import styles from './IndexerProxy.css';
@@ -59,7 +60,10 @@ class IndexerProxy extends Component {
       name,
       tags,
       tagList,
-      indexerList
+      indexerList,
+      isTesting,
+      testError,
+      onTestIndexerProxyPress
     } = this.props;
 
     return (
@@ -68,8 +72,25 @@ class IndexerProxy extends Component {
         overlayContent={true}
         onPress={this.onEditIndexerProxyPress}
       >
-        <div className={styles.name}>
-          {name}
+        <div className={styles.nameContainer}>
+          <div className={styles.name}>
+            {name}
+          </div>
+
+          <div className={styles.actionButtons}>
+            <IconButton
+              className={styles.actionButton}
+              name={icons.TEST}
+              title={translate('Test')}
+              actionLabel={translate('Test')}
+              context={name}
+              isSpinning={isTesting}
+              isDisabled={isTesting}
+              announceCompletion={true}
+              error={testError}
+              onPress={() => onTestIndexerProxyPress(id)}
+            />
+          </div>
         </div>
 
         <TagList
@@ -138,7 +159,10 @@ IndexerProxy.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.number).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
   indexerList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteIndexerProxy: PropTypes.func.isRequired
+  isTesting: PropTypes.bool.isRequired,
+  testError: PropTypes.object,
+  onConfirmDeleteIndexerProxy: PropTypes.func.isRequired,
+  onTestIndexerProxyPress: PropTypes.func.isRequired
 };
 
 export default IndexerProxy;

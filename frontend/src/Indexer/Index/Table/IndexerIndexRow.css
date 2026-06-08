@@ -64,8 +64,8 @@
 .actions {
   composes: cell;
 
-  flex: 0 1 90px;
-  min-width: 90px;
+  flex: 0 1 120px;
+  min-width: 120px;
 }
 
 .checkInput {
@@ -78,4 +78,8 @@
   composes: button from '~Components/Link/IconButton.css';
 
   color: var(--textColor);
+}
+
+.actionButton {
+  composes: button from '~Components/Link/IconButton.css';
 }

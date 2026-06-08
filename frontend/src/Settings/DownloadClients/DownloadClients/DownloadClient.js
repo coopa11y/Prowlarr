@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Card from 'Components/Card';
 import Label from 'Components/Label';
+import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
-import { kinds } from 'Helpers/Props';
+import { icons, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
 import EditDownloadClientModalConnector from './EditDownloadClientModalConnector';
 import styles from './DownloadClient.css';
@@ -56,7 +57,10 @@ class DownloadClient extends Component {
       id,
       name,
       enable,
-      priority
+      priority,
+      isTesting,
+      testError,
+      onTestDownloadClientPress
     } = this.props;
 
     return (
@@ -65,8 +69,25 @@ class DownloadClient extends Component {
         overlayContent={true}
         onPress={this.onEditDownloadClientPress}
       >
-        <div className={styles.name}>
-          {name}
+        <div className={styles.nameContainer}>
+          <div className={styles.name}>
+            {name}
+          </div>
+
+          <div className={styles.actionButtons}>
+            <IconButton
+              className={styles.actionButton}
+              name={icons.TEST}
+              title={translate('Test')}
+              actionLabel={translate('Test')}
+              context={name}
+              isSpinning={isTesting}
+              isDisabled={isTesting}
+              announceCompletion={true}
+              error={testError}
+              onPress={() => onTestDownloadClientPress(id)}
+            />
+          </div>
         </div>
 
         <div className={styles.enabled}>
@@ -120,7 +141,10 @@ DownloadClient.propTypes = {
   name: PropTypes.string.isRequired,
   enable: PropTypes.bool.isRequired,
   priority: PropTypes.number.isRequired,
-  onConfirmDeleteDownloadClient: PropTypes.func.isRequired
+  isTesting: PropTypes.bool.isRequired,
+  testError: PropTypes.object,
+  onConfirmDeleteDownloadClient: PropTypes.func.isRequired,
+  onTestDownloadClientPress: PropTypes.func.isRequired
 };
 
 export default DownloadClient;

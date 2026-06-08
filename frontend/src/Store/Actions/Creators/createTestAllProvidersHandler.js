@@ -25,7 +25,8 @@ function createTestAllProvidersHandler(section, url) {
     request.fail((xhr) => {
       dispatch(set({
         section,
-        isTestingAll: false
+        isTestingAll: false,
+        saveError: xhr.aborted ? null : xhr
       }));
     });
   };

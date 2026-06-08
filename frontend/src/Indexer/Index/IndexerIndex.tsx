@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectProvider } from 'App/SelectContext';
+import AppState from 'App/State/AppState';
 import ClientSideCollectionAppState from 'App/State/ClientSideCollectionAppState';
 import IndexerAppState, {
   IndexerIndexAppState,
@@ -32,6 +33,7 @@ import {
   cloneIndexer,
   fetchIndexers,
   testAllIndexers,
+  testIndexer,
 } from 'Store/Actions/indexerActions';
 import {
   setIndexerFilter,
@@ -83,6 +85,8 @@ const IndexerIndex = withScrollPosition((props: IndexerIndexProps) => {
   const isSyncingIndexers = useSelector(
     createCommandExecutingSelector(APP_INDEXER_SYNC)
   );
+  const isTesting = useSelector((state: AppState) => state.indexers.isTesting);
+  const testError = useSelector((state: AppState) => state.indexers.saveError);
   const { isSmallScreen } = useSelector(createDimensionsSelector());
   const dispatch = useDispatch();
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -92,6 +96,7 @@ const IndexerIndex = withScrollPosition((props: IndexerIndexProps) => {
     undefined
   );
   const [isSelectMode, setIsSelectMode] = useState(false);
+  const [testingIndexerId, setTestingIndexerId] = useState<number | null>(null);
 
   useEffect(() => {
     dispatch(fetchIndexers());
@@ -121,6 +126,14 @@ const IndexerIndex = withScrollPosition((props: IndexerIndexProps) => {
       setIsEditIndexerModalOpen(true);
     },
     [dispatch, setIsEditIndexerModalOpen]
+  );
+
+  const onTestIndexerPress = useCallback(
+    (id: number) => {
+      setTestingIndexerId(id);
+      dispatch(testIndexer({ id }));
+    },
+    [dispatch, setTestingIndexerId]
   );
 
   const onAppIndexerSyncPress = useCallback(() => {
@@ -245,6 +258,8 @@ const IndexerIndex = withScrollPosition((props: IndexerIndexProps) => {
               iconName={icons.TEST}
               isSpinning={isTestingAll}
               isDisabled={hasNoIndexer}
+              announceCompletion={true}
+              error={testError}
               onPress={onTestAllPress}
             />
 
@@ -328,7 +343,11 @@ const IndexerIndex = withScrollPosition((props: IndexerIndexProps) => {
                   jumpToCharacter={jumpToCharacter}
                   isSelectMode={isSelectMode}
                   isSmallScreen={isSmallScreen}
+                  isTesting={isTesting}
+                  testingIndexerId={testingIndexerId}
+                  testError={testError}
                   onCloneIndexerPress={onCloneIndexerPress}
+                  onTestIndexerPress={onTestIndexerPress}
                 />
 
                 <IndexerIndexFooter />

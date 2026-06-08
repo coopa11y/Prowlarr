@@ -58,6 +58,7 @@ class DownloadClientSettings extends Component {
   render() {
     const {
       isTestingAll,
+      testAllError,
       dispatchTestAllDownloadClients
     } = this.props;
 
@@ -80,6 +81,8 @@ class DownloadClientSettings extends Component {
                 label={translate('TestAllClients')}
                 iconName={icons.TEST}
                 isSpinning={isTestingAll}
+                announceCompletion={true}
+                error={testAllError}
                 onPress={dispatchTestAllDownloadClients}
               />
 
@@ -108,6 +111,7 @@ class DownloadClientSettings extends Component {
 
 DownloadClientSettings.propTypes = {
   isTestingAll: PropTypes.bool.isRequired,
+  testAllError: PropTypes.object,
   dispatchTestAllDownloadClients: PropTypes.func.isRequired
 };
 

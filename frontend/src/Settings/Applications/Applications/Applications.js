@@ -21,7 +21,8 @@ class Applications extends Component {
 
     this.state = {
       isAddApplicationModalOpen: false,
-      isEditApplicationModalOpen: false
+      isEditApplicationModalOpen: false,
+      testingApplicationId: null
     };
   }
 
@@ -43,6 +44,11 @@ class Applications extends Component {
     this.setState({ isEditApplicationModalOpen: false });
   };
 
+  onTestApplicationPress = (id) => {
+    this.setState({ testingApplicationId: id });
+    this.props.onTestApplicationPress(id);
+  };
+
   //
   // Render
 
@@ -50,13 +56,16 @@ class Applications extends Component {
     const {
       items,
       tagList,
+      isTesting,
+      saveError,
       onConfirmDeleteApplication,
       ...otherProps
     } = this.props;
 
     const {
       isAddApplicationModalOpen,
-      isEditApplicationModalOpen
+      isEditApplicationModalOpen,
+      testingApplicationId
     } = this.state;
 
     return (
@@ -73,7 +82,10 @@ class Applications extends Component {
                     key={item.id}
                     {...item}
                     tagList={tagList}
+                    isTesting={isTesting && testingApplicationId === item.id}
+                    testError={testingApplicationId === item.id ? saveError : null}
                     onConfirmDeleteApplication={onConfirmDeleteApplication}
+                    onTestApplicationPress={this.onTestApplicationPress}
                   />
                 );
               })
@@ -110,9 +122,12 @@ class Applications extends Component {
 Applications.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.object,
+  saveError: PropTypes.object,
+  isTesting: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteApplication: PropTypes.func.isRequired
+  onConfirmDeleteApplication: PropTypes.func.isRequired,
+  onTestApplicationPress: PropTypes.func.isRequired
 };
 
 export default Applications;

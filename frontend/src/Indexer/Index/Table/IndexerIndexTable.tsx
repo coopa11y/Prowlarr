@@ -26,7 +26,11 @@ interface RowItemData {
   sortKey: string;
   columns: Column[];
   isSelectMode: boolean;
+  isTesting: boolean;
+  testingIndexerId: number | null;
+  testError: unknown;
   onCloneIndexerPress(id: number): void;
+  onTestIndexerPress(id: number): void;
 }
 
 interface IndexerIndexTableProps {
@@ -38,7 +42,11 @@ interface IndexerIndexTableProps {
   scrollerRef: RefObject<HTMLElement>;
   isSelectMode: boolean;
   isSmallScreen: boolean;
+  isTesting: boolean;
+  testingIndexerId: number | null;
+  testError: unknown;
   onCloneIndexerPress(id: number): void;
+  onTestIndexerPress(id: number): void;
 }
 
 const columnsSelector = createSelector(
@@ -47,7 +55,17 @@ const columnsSelector = createSelector(
 );
 
 function Row({ index, style, data }: ListChildComponentProps<RowItemData>) {
-  const { items, sortKey, columns, isSelectMode, onCloneIndexerPress } = data;
+  const {
+    items,
+    sortKey,
+    columns,
+    isSelectMode,
+    isTesting,
+    testingIndexerId,
+    testError,
+    onCloneIndexerPress,
+    onTestIndexerPress,
+  } = data;
 
   if (index >= items.length) {
     return null;
@@ -69,7 +87,10 @@ function Row({ index, style, data }: ListChildComponentProps<RowItemData>) {
         sortKey={sortKey}
         columns={columns}
         isSelectMode={isSelectMode}
+        isTesting={isTesting && testingIndexerId === indexer.id}
+        testError={testingIndexerId === indexer.id ? testError : null}
         onCloneIndexerPress={onCloneIndexerPress}
+        onTestIndexerPress={onTestIndexerPress}
       />
     </div>
   );
@@ -88,7 +109,11 @@ function IndexerIndexTable(props: IndexerIndexTableProps) {
     isSelectMode,
     isSmallScreen,
     scrollerRef,
+    isTesting,
+    testingIndexerId,
+    testError,
     onCloneIndexerPress,
+    onTestIndexerPress,
   } = props;
 
   const columns = useSelector(columnsSelector);
@@ -198,7 +223,11 @@ function IndexerIndexTable(props: IndexerIndexTableProps) {
             sortKey,
             columns,
             isSelectMode,
+            isTesting,
+            testingIndexerId,
+            testError,
             onCloneIndexerPress,
+            onTestIndexerPress,
           }}
         >
           {Row}

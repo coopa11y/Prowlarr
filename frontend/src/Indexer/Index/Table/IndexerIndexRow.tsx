@@ -27,11 +27,22 @@ interface IndexerIndexRowProps {
   sortKey: string;
   columns: Column[];
   isSelectMode: boolean;
+  isTesting: boolean;
+  testError: unknown;
   onCloneIndexerPress(id: number): void;
+  onTestIndexerPress(id: number): void;
 }
 
 function IndexerIndexRow(props: IndexerIndexRowProps) {
-  const { indexerId, columns, isSelectMode, onCloneIndexerPress } = props;
+  const {
+    indexerId,
+    columns,
+    isSelectMode,
+    isTesting,
+    testError,
+    onCloneIndexerPress,
+    onTestIndexerPress,
+  } = props;
 
   const { indexer, appProfile, status, longDateFormat, timeFormat } =
     useSelector(createIndexerIndexItemSelector(indexerId));
@@ -106,6 +117,10 @@ function IndexerIndexRow(props: IndexerIndexRowProps) {
   const onDeleteIndexerModalClose = useCallback(() => {
     setIsDeleteIndexerModalOpen(false);
   }, [setIsDeleteIndexerModalOpen]);
+
+  const onTestPress = useCallback(() => {
+    onTestIndexerPress(id);
+  }, [id, onTestIndexerPress]);
 
   const checkInputCallback = useCallback(() => {
     // Mock handler to satisfy `onChange` being required for `CheckInput`.
@@ -310,9 +325,24 @@ function IndexerIndexRow(props: IndexerIndexRowProps) {
               className={styles[column.name]}
             >
               <IconButton
+                className={styles.actionButton}
+                name={icons.TEST}
+                title={translate('Test')}
+                actionLabel={translate('Test')}
+                context={indexerName}
+                isSpinning={isTesting}
+                isDisabled={isTesting}
+                announceCompletion={true}
+                error={testError}
+                onPress={onTestPress}
+              />
+
+              <IconButton
                 className={styles.externalLink}
                 name={icons.RSS}
                 title={translate('RssFeed')}
+                actionLabel={translate('RssFeed')}
+                context={indexerName}
                 to={rssUrl}
               />
 
@@ -321,6 +351,8 @@ function IndexerIndexRow(props: IndexerIndexRowProps) {
                   className={styles.externalLink}
                   name={icons.EXTERNAL_LINK}
                   title={translate('Website')}
+                  actionLabel={translate('Website')}
+                  context={indexerName}
                   to={baseUrl.replace(/(:\/\/)api\./, '$1')}
                 />
               ) : null}
@@ -328,6 +360,8 @@ function IndexerIndexRow(props: IndexerIndexRowProps) {
               <IconButton
                 name={icons.EDIT}
                 title={translate('EditIndexer')}
+                actionLabel={translate('EditIndexer')}
+                context={indexerName}
                 onPress={onEditIndexerPress}
               />
             </VirtualTableRowCell>
