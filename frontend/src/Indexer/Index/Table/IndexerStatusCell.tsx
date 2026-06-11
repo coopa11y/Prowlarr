@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Icon from 'Components/Icon';
 import VirtualTableRowCell from 'Components/Table/Cells/TableRowCell';
 import Popover from 'Components/Tooltip/Popover';
@@ -7,6 +7,18 @@ import { IndexerStatus } from 'Indexer/Indexer';
 import translate from 'Utilities/String/translate';
 import DisabledIndexerInfo from './DisabledIndexerInfo';
 import styles from './IndexerStatusCell.css';
+
+const screenReaderOnlyStyle: CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
 
 function getIconKind(enabled: boolean, redirect: boolean) {
   if (enabled) {
@@ -54,8 +66,15 @@ function IndexerStatusCell(props: IndexerStatusCellProps) {
     ...otherProps
   } = props;
 
+  const enabledLabel = getIconTooltip(enabled, redirect);
+  const statusLabel = status
+    ? `${enabledLabel}. ${translate('IndexerDisabled')}`
+    : enabledLabel;
+
   return (
-    <Component className={className} {...otherProps}>
+    <Component className={className} aria-label={statusLabel} {...otherProps}>
+      <span style={screenReaderOnlyStyle}>{statusLabel}</span>
+
       <Icon
         className={styles.statusIcon}
         kind={getIconKind(enabled, redirect)}
