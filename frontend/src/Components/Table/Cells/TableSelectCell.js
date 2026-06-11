@@ -46,6 +46,7 @@ class TableSelectCell extends Component {
   render() {
     const {
       className,
+      ariaLabel,
       id,
       isSelected,
       ...otherProps
@@ -56,6 +57,7 @@ class TableSelectCell extends Component {
         <CheckInput
           className={styles.input}
           name={id.toString()}
+          ariaLabel={ariaLabel}
           value={isSelected}
           {...otherProps}
           onChange={this.onChange}
@@ -67,6 +69,7 @@ class TableSelectCell extends Component {
 
 TableSelectCell.propTypes = {
   className: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   isSelected: PropTypes.bool.isRequired,
   onSelectedChange: PropTypes.func.isRequired
@@ -74,6 +77,7 @@ TableSelectCell.propTypes = {
 
 TableSelectCell.defaultProps = {
   className: styles.selectCell,
+  ariaLabel: 'Select Row',
   isSelected: false
 };
 
