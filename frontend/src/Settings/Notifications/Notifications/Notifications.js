@@ -93,6 +93,8 @@ class Notifications extends Component {
 
             <Card
               className={styles.addNotification}
+              ariaLabel={translate('AddConnection')}
+              title={translate('AddConnection')}
               onPress={this.onAddNotificationPress}
             >
               <div className={styles.center}>

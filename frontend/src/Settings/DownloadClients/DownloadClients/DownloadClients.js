@@ -102,6 +102,8 @@ class DownloadClients extends Component {
 
               <Card
                 className={styles.addDownloadClient}
+                ariaLabel={translate('AddDownloadClient')}
+                title={translate('AddDownloadClient')}
                 onPress={this.onAddDownloadClientPress}
               >
                 <div className={styles.center}>

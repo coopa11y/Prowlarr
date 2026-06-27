@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ActionCard from 'Components/Link/ActionCard';
+import Card from 'Components/Card';
 import Button from 'Components/Link/Button';
 import Menu from 'Components/Menu/Menu';
 import MenuContent from 'Components/Menu/MenuContent';
@@ -38,61 +38,64 @@ class AddIndexerProxyItem extends Component {
     const hasPresets = !!presets && !!presets.length;
 
     return (
-      <ActionCard
+      <Card
         className={styles.indexerProxy}
-        underlayClassName={styles.underlay}
         overlayClassName={styles.overlay}
-        nameClassName={styles.name}
-        actionsClassName={styles.actions}
-        label={`${translate('AddIndexerProxy')}: ${implementationName}`}
-        name={implementationName}
+        ariaLabel={translate('AddIndexerProxyImplementation', { implementationName })}
         title={implementationName}
+        overlayContent={true}
         onPress={this.onIndexerProxySelect}
       >
-        {
-          hasPresets &&
-            <span>
-              <Button
-                size={sizes.SMALL}
-                onPress={this.onIndexerProxySelect}
-              >
-                Custom
-              </Button>
+        <div className={styles.name}>
+          {implementationName}
+        </div>
 
-              <Menu className={styles.presetsMenu}>
+        <div className={styles.actions}>
+          {
+            hasPresets &&
+              <span>
                 <Button
-                  className={styles.presetsMenuButton}
                   size={sizes.SMALL}
+                  onPress={this.onIndexerProxySelect}
                 >
-                  Presets
+                  Custom
                 </Button>
 
-                <MenuContent>
-                  {
-                    presets.map((preset) => {
-                      return (
-                        <AddIndexerProxyPresetMenuItem
-                          key={preset.name}
-                          name={preset.name}
-                          implementation={implementation}
-                          implementationName={implementationName}
-                          onPress={onIndexerProxySelect}
-                        />
-                      );
-                    })
-                  }
-                </MenuContent>
-              </Menu>
-            </span>
-        }
+                <Menu className={styles.presetsMenu}>
+                  <Button
+                    className={styles.presetsMenuButton}
+                    size={sizes.SMALL}
+                  >
+                    Presets
+                  </Button>
 
-        <Button
-          to={infoLink}
-          size={sizes.SMALL}
-        >
-          {translate('MoreInfo')}
-        </Button>
-      </ActionCard>
+                  <MenuContent>
+                    {
+                      presets.map((preset) => {
+                        return (
+                          <AddIndexerProxyPresetMenuItem
+                            key={preset.name}
+                            name={preset.name}
+                            implementation={implementation}
+                            implementationName={implementationName}
+                            onPress={onIndexerProxySelect}
+                          />
+                        );
+                      })
+                    }
+                  </MenuContent>
+                </Menu>
+              </span>
+          }
+
+          <Button
+            to={infoLink}
+            size={sizes.SMALL}
+          >
+            {translate('MoreInfo')}
+          </Button>
+        </div>
+      </Card>
     );
   }
 }

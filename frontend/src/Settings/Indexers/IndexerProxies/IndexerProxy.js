@@ -70,6 +70,8 @@ class IndexerProxy extends Component {
     return (
       <Card
         className={styles.indexerProxy}
+        ariaLabel={translate('EditIndexerProxyImplementation', { implementationName: name })}
+        title={name}
         overlayContent={true}
         onPress={this.onEditIndexerProxyPress}
       >
