@@ -61,7 +61,7 @@ class Category extends Component {
     return (
       <Card
         className={styles.customFormat}
-        ariaLabel={`${translate('EditCategory')}: ${clientCategory}`}
+        ariaLabel={translate('EditCategoryName', { name: clientCategory })}
         title={clientCategory}
         overlayContent={true}
         onPress={this.onEditSpecificationPress}
