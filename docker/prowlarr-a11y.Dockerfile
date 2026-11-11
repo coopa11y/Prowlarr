@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-jammy
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-noble
 
 ARG PROWLARRVERSION
 ARG PROWLARRBRANCH=develop
@@ -9,7 +9,7 @@ RUN apt-get update \
 
 WORKDIR /opt/prowlarr
 
-COPY _artifacts/linux-x64/net8.0/Prowlarr/ /opt/prowlarr/
+COPY _artifacts/linux-x64/net10.0/Prowlarr/ /opt/prowlarr/
 COPY docker/entrypoint.sh /usr/local/bin/prowlarr-entrypoint
 
 RUN chmod +x /usr/local/bin/prowlarr-entrypoint /opt/prowlarr/Prowlarr \
